@@ -21,6 +21,7 @@ import (
 	"log"
 	url2 "net/url"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -132,10 +133,12 @@ func merge_setting(request_setting, session_setting interface{}) interface{} {
 var disableRedirect = func(request *http.Request, via []*http.Request) error {
 	return http.ErrUseLastResponse
 }
+
 var (
 	DEFAULT_TRANSPORT *http.Transport // 默认 Transport
 	defineTransport   sync.Once
 )
+
 const (
 	DEFAULT_REDIRECT_LIMIT = 30 // 默认redirect最大次数
 	DEFAULT_TIMEOUT        = 10 // 默认client响应时间
